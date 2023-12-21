@@ -21,10 +21,11 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "dev": "cross-env env-cmd -f ./.env  nodemon index.js",
+    "dev": "cross-env env-cmd -f ./.env  nodemon ./backend/index.js",
     "test": "cross-env env-cmd -f ./test/test.env jest --runInBand ",
     "coverage": "npm test --coverage --watchAll",
-    "start": "env-cmd node index.js"
+    "start": "env-cmd node index.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend "
   },
   "jest": {
     "testEnvironment": "node"
