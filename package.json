@@ -24,7 +24,7 @@
     "dev": "cross-env env-cmd -f ./.env  nodemon ./backend/index.js",
     "test": "cross-env env-cmd -f ./test/test.env jest --runInBand ",
     "coverage": "npm test --coverage --watchAll",
-    "start": "env-cmd node index.js",
+    "start": "env-cmd node backend/index.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend "
   },
   "jest": {
