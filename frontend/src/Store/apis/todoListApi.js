@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const todoListApi = createApi({
   reducerPath: 'todoList',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/users/profile',
-    prepareHeaders: (headers) => {
+    baseUrl: '/users/profile',
+    prepareHeaders: headers => {
       const token = window.localStorage.token
       if (token) {
         headers.set('authorization', `Bearer ${token}`)
@@ -27,7 +27,7 @@ const todoListApi = createApi({
       }),
 
       addTodo: builder.mutation({
-        query: (item) => {
+        query: item => {
           return {
             url: '/task',
             method: 'POST',
@@ -42,7 +42,7 @@ const todoListApi = createApi({
       }),
 
       editTodo: builder.mutation({
-        query: (item) => {
+        query: item => {
           return {
             url: `/task/${item.id}`,
             method: 'PATCH',
@@ -57,7 +57,7 @@ const todoListApi = createApi({
       }),
 
       deleteTodo: builder.mutation({
-        query: (id) => {
+        query: id => {
           return {
             url: `/task/${id}`,
             method: 'DELETE',
