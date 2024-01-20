@@ -1,11 +1,18 @@
+//ui
 import { Button, Progress } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import PropTypes from 'prop-types'
-import { useState } from 'react'
 import ShowModal from './ShowModal'
+//
+import { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
+//
 import { useDeleteTodoMutation, useEditTodoMutation } from '../../Store'
+import authContext from '../../Context/authContext'
+
+import { toast } from 'react-toastify'
 
 function TodoItem({ title, description, priority, id }) {
+  const { user } = useContext(authContext)
   const [deleteTodo] = useDeleteTodoMutation()
   const [editTodo] = useEditTodoMutation()
 
@@ -41,7 +48,7 @@ function TodoItem({ title, description, priority, id }) {
 
   //Delete a Todo
   function handleDelete() {
-    deleteTodo(id)
+    if (user) return deleteTodo(id)
   }
 
   // callDispatch for edit
@@ -50,34 +57,31 @@ function TodoItem({ title, description, priority, id }) {
   }
 
   return (
-    <div className="bg-white mt-4 py-6 px-8 flex flex-row justify-between rounded-3xl items-center">
-      <div className="w-1/4 flex flex-col">
-        <span className="mb-2 text-sm font-normal text-slate-500">Title</span>
-        <span className="text-base font-bold leading-tight">{title}</span>
+    <div className="max min-w-0 bg-white mt-4 py-6 px-8 flex flex-row justify-between rounded-3xl items-center ">
+      <div className="w-1/4 flex flex-col ">
+        <span className="mb-2 text-xl font-normal text-slate-500">Title</span>
+        <span className=" text-lg font-bold leading-tight">{title}</span>
       </div>
-      <div className="w-1/4 flex flex-col">
-        <span className="mb-2 text-sm font-normal text-slate-500">
-          Description
-        </span>
-        <span className="text-base font-bold leading-tight">{description}</span>
+      <div className="w-3/4 mx-3 flex flex-col ">
+        <span className="mb-2 text-xl font-normal text-slate-500">Description</span>
+        <span className="text-lg font-bold leading-tight">{description}</span>
       </div>
-      <div className="w-1/4 flex flex-col">
-        <span className="mb-2 text-sm font-normal text-slate-500">
-          Priority
-        </span>
-        <span className={`text-base font-bold leading-tight ${color()}`}>
-          {priority}
-        </span>
+      <div className=" max-w-md mx-8 flex flex-col ">
+        <span className="mb-2 text-xl font-normal text-slate-500">Priority</span>
+        <span className={`text-lg font-bold leading-tight ${color()}`}>{priority}</span>
       </div>
-      <div className="w-1/4 cursor-pointer rounded-lg text-xs font-bold outline-none">
+      <div className=" mx-8 cursor-pointer rounded-lg text-xs font-bold outline-none ">
         <Button onClick={handleProgress}>{progress}</Button>
       </div>
-      <div className="w-1/4 py-3 flex flex-row justify-center">
+      <div className=" w-7 py-3 flex flex-row justify-center ">
         <Progress size={20} type="circle" percent={percent} />
       </div>
-      <div className="w-1/4 flex flex-row justify-around">
+      <div className="w-1/4 flex flex-row justify-around ">
         <EditOutlined style={{ fontSize: 25 }} onClick={handleEdit} />
-        <DeleteOutlined onClick={handleDelete} style={{ fontSize: 25 }} />
+        <DeleteOutlined
+          onClick={user ? handleDelete : () => toast('Please login to continue! 👉')}
+          style={{ fontSize: 25 }}
+        />
       </div>
       <ShowModal
         open={open || false}

@@ -4,22 +4,16 @@ import authContext from './authContext'
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const login = (logInUser) => {
+  const login = logInUser => {
     setUser(logInUser)
   }
   const logout = () => {
     setUser(null)
   }
-  return (
-    <authContext.Provider value={{ user, login, logout }}>
-      {children}
-    </authContext.Provider>
-  )
+  return <authContext.Provider value={{ user, login, logout }}>{children}</authContext.Provider>
 }
 AuthProvider.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 }
+
 export { AuthProvider }

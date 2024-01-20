@@ -1,5 +1,4 @@
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToasterError } from '../Components/ui/Toaster'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -15,12 +14,7 @@ import useFormInputHandler from '../hooks/useFormInputHandler'
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="#">
         Your Website
@@ -139,24 +133,19 @@ function SignUp() {
                 )}
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="http://localhost:5173/Signin" variant="body2">
+                <Link href="/Signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <ToastContainer limit={1} />
+        <ToasterError />
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
