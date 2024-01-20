@@ -1,12 +1,15 @@
+//ui
 import Skeleton from '@mui/material/Skeleton'
 import Button from '@mui/material/Button'
-import TodoItem from './ui/TodoItem'
 import AddIcon from '@mui/icons-material/Add'
-import { useState } from 'react'
 import ShowModal from './ui/ShowModal'
+import TodoItem from './ui/TodoItem'
+//redux
 import { useAddTodoMutation } from '../Store'
-
 import { useGetTodoQuery } from '../Store'
+//
+import { useState } from 'react'
+
 function TodoList() {
   const [open, setOpen] = useState(false)
   const [addTodo] = useAddTodoMutation()
@@ -15,14 +18,7 @@ function TodoList() {
   const callDispatch = taskObject => {
     addTodo(taskObject)
   }
-  const buttonStyles = {
-    color: 'white',
-    backgroundColor: '#713fff',
-    borderRadius: '14px',
-    fontWeight: 600,
-    fontSize: '16px',
-    boxShadow: '0 6px 12px rgba(113,63,255,.25)',
-  }
+
   let renderedList
 
   if (isFetching) {
@@ -42,8 +38,7 @@ function TodoList() {
     renderedList = (
       <div className="my-4 bg-red-200 text-red-800 p-4 rounded-lg">
         <p>
-          It seems there is an issue fetching the data. Please refresh the page
-          or try again later.
+          It seems there is an issue fetching the data. Please refresh the page or try again later.
         </p>
       </div>
     )
@@ -95,3 +90,12 @@ function TodoList() {
   )
 }
 export default TodoList
+
+const buttonStyles = {
+  color: 'white',
+  backgroundColor: '#713fff',
+  borderRadius: '14px',
+  fontWeight: 600,
+  fontSize: '16px',
+  boxShadow: '0 6px 12px rgba(113,63,255,.25)',
+}

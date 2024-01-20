@@ -1,13 +1,14 @@
 import { toast } from 'react-toastify'
 import { useState } from 'react'
-import {
-  userSchemaValidate,
-  loginSchemaValidate,
-} from '../services/schema/userValidate'
+import { userSchemaValidate, loginSchemaValidate } from '../services/schema/userValidate'
 import { useLoginUserMutation, useSignupMutation } from '../Store'
 import { useNavigate } from 'react-router-dom'
+//CONTEXT
+import { useContext } from 'react'
+import authContext from '../Context/authContext'
 
 function useFormInputHandler(emptyUser) {
+  const { login } = useContext(authContext)
   const [user, setUser] = useState(emptyUser)
   const [inputError, setInputError] = useState(null)
   // const [serverError, setServerError] = useState(null)
@@ -17,9 +18,9 @@ function useFormInputHandler(emptyUser) {
   let authToken = null
   const navigate = useNavigate()
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target
-    setUser((prev) => {
+    setUser(prev => {
       return {
         ...prev,
         [name]: value,
@@ -29,7 +30,7 @@ function useFormInputHandler(emptyUser) {
   }
 
   //Create an account
-  const handleSignUpSubmit = async (event) => {
+  const handleSignUpSubmit = async event => {
     event.preventDefault()
     setInputError(null)
     const { error: validationError } = userSchemaValidate(user)
@@ -40,31 +41,24 @@ function useFormInputHandler(emptyUser) {
     }
     try {
       const { data, error } = await signup(user)
-      console.log({ data, error })
       if (error) {
-        return toast.error(error.data.error, {
-          position: 'top-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-        })
+        return toast.error(error.data.error)
       }
-      const { token } = data
-      if (token) {
+      const { token, _id } = data
+
+      if (token && _id) {
+        login(_id)
         window.localStorage.setItem('token', token)
-        navigate('/todo')
+        navigate('/')
       }
     } catch (error) {
       console.error(error)
+      toast.error('An error occurred. Please try again.')
     }
   }
 
   //Log In to an account
-  const handleSignInSubmit = async (event) => {
+  const handleSignInSubmit = async event => {
     event.preventDefault()
     setInputError(null)
     const { error: validationError } = loginSchemaValidate(user)
@@ -77,24 +71,18 @@ function useFormInputHandler(emptyUser) {
       const { data, error } = await loginUser(user)
       console.log({ data, error })
       if (error) {
-        return toast.error(error.data.error, {
-          position: 'top-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-        })
+        return toast.error(error.data.error || `${error.status}:Error`)
       }
-      const { token } = data
-      if (token) {
+      const { token, _id } = data
+
+      if (token && _id) {
+        login(_id)
         window.localStorage.setItem('token', token)
-        navigate('/todo')
+        navigate('/')
       }
     } catch (error) {
-      console.error(error)
+      console.error(error.error)
+      toast.error('An error occurred. Please try again.')
     }
   }
 

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const todoListApi = createApi({
   reducerPath: 'todoList',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/users/profile',
+    baseUrl: 'http://localhost:5000/users/profile',
     prepareHeaders: headers => {
       const token = window.localStorage.token
       if (token) {
@@ -69,10 +69,6 @@ const todoListApi = createApi({
   },
 })
 
-export const {
-  useGetTodoQuery,
-  useAddTodoMutation,
-  useDeleteTodoMutation,
-  useEditTodoMutation,
-} = todoListApi
+export const { useGetTodoQuery, useAddTodoMutation, useDeleteTodoMutation, useEditTodoMutation } =
+  todoListApi
 export { todoListApi }

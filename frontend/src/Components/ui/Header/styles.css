@@ -1,0 +1,39 @@
+@keyframes letterAnimation {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-5px) scale(1) rotate(-5deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(5px) scale(1) rotate(5deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Apply letter animation to each letter */
+.moving-letters {
+  display: inline-flex;
+  /* Replace with your light gray background color */
+  padding: 10px;
+}
+
+.moving-letters span {
+  display: inline-block;
+  color: #333; /* Dark text color */
+  animation: letterAnimation 3s infinite;
+}
+
+.moving-letters span:nth-child(odd) {
+  color: #666; /* Light text color for odd-indexed letters */
+}

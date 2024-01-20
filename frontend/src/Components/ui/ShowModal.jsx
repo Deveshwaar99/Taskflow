@@ -1,10 +1,15 @@
+//ui
 import { Button, Modal } from 'antd'
 import { Input } from 'antd'
 import Buttonmui from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
+import { toast } from 'react-toastify'
+//
 import PropTypes from 'prop-types'
 import { useState, useEffect, useRef } from 'react'
-
+//context
+import { useContext } from 'react'
+import authContext from '../../Context/authContext'
 const ShowModal = ({
   open,
   setOpen,
@@ -13,6 +18,8 @@ const ShowModal = ({
   currentPriority,
   callDispatch,
 }) => {
+  const { user } = useContext(authContext)
+
   const [task, setTask] = useState(currentTask || '')
   const [description, setDescription] = useState(currentDescription || '')
   const [priority, setPriority] = useState(currentPriority || 'HIGH')
@@ -62,7 +69,7 @@ const ShowModal = ({
           className="bg-indigo-600"
           type="primary"
           loading={confirmLoading}
-          onClick={handleOk}
+          onClick={user ? handleOk : () => toast('Please login to continue! 👉')}
           disabled={!task}
         >
           Add
