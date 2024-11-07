@@ -17,6 +17,7 @@ Technologies used in the project:
 *   Express
 *   React 18
 *   Redux
+*   RTK Query
 *   React-router
 *   MongoDb
 *   jwt
